@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
       width: "90%",
     },
     btnCloseContainer:{
+      marginTop:"80%",
       alignItems: "center",
     },
     userView:{

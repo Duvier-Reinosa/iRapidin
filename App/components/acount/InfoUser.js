@@ -1,5 +1,5 @@
-import React from 'react'
-import {StyleSheet, View, Text} from "react-native";
+import React, {useState} from 'react'
+import {StyleSheet, View, Text, Image} from "react-native";
 import { Avatar} from "react-native-elements";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
@@ -11,22 +11,43 @@ import "firebase/firestore";
 import { firebaseApp } from "../../../App/utilidades/firebase";
 
 
-
-
 const db = firebase.firestore(firebaseApp);
 const restaurantsRef = db.collection("restaurants");
 
 
 export default function InfoUser(props) {
     const {userInfo, toastRef, setLoading} = props;
+    const [restaurant, setRestaurant] = useState(null);
+    const [restaurantImages, setRestaurantImages] = useState();
     var photoAvatar
-
+    
     if(userInfo === null){ //se limpia el error de que el objeto userInfo cargue y no siempre esté null
+      
       console.log(userInfo); 
     }else{
+
+
       photoAvatar = userInfo.photoURL;
+      
+      db.collection("restaurants")//esta parte del codigo guarda los datos del codigo en un estado
+      .get()
+      .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+              if (doc.data().createBy === userInfo.uid) {
+                setRestaurant(doc.data());
+                setRestaurantImages(restaurant.images);
+                // console.log(doc.id, " => ", doc.data());
+              }
+              
+          });
+      })
+      .catch((error) => {
+          console.log("Error getting documents: ", error);
+      });
+
     }
-    // console.log(userInfo); 
+
+    
  
 
     const changeAvatar = async () => {
@@ -78,7 +99,6 @@ export default function InfoUser(props) {
         };
 
 
-
     return (
         <View style={styles.viewUserInfo}>
             <Avatar
@@ -92,8 +112,23 @@ export default function InfoUser(props) {
                   : require("../../../assets/img/avatar-default.jpg") 
                 }
             />
-            <View>
-                <Text style={styles.nameUser}>{userInfo ? userInfo.displayName : "Anonimo" }</Text>
+            <View style={styles.userInfoText}>
+                <Text style={styles.titles}>{restaurant ? restaurant.name : "Anonimo" }</Text>
+                <Text style={styles.titles}>Descriptión: 
+                      <Text style={{fontWeight: "normal"}}>
+                        {restaurant ? restaurant.description : "" }
+                        </Text>
+                </Text>
+                <Text style={styles.titles}>Valoración: 
+                      <Text style={{fontWeight: "normal"}}>
+                        {restaurant ? ` ${restaurant.rating} estrellas`  : "" }
+                        </Text>
+                </Text>
+                {/* <Text style={styles.titles}>Imagenes:</Text>
+                <Image style={{height:100, width: 100}}
+                  source= {restaurant ? {uri: restaurantImages} : require("../../../assets/img/no-image.png")}
+                  /> */}
+
             </View>
         </View>
     )
@@ -101,12 +136,15 @@ export default function InfoUser(props) {
 const styles = StyleSheet.create({
     viewUserInfo:{
         alignItems: "center",
-        justifyContent: "center"
     },
     userInfoAvatar:{
         marginTop: 20,
     },
-    nameUser:{
+    userInfoText:{
+      marginTop: 30,
+      width: "80%"
+    },
+    titles:{
         marginTop: 10,
         fontWeight: "bold"
     }
