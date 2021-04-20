@@ -18,7 +18,6 @@ const restaurantsRef = db.collection("restaurants");
 export default function InfoUser(props) {
     const {userInfo, toastRef, setLoading} = props;
     const [restaurant, setRestaurant] = useState(null);
-    const [restaurantImages, setRestaurantImages] = useState();
     var photoAvatar
     
     if(userInfo === null){ //se limpia el error de que el objeto userInfo cargue y no siempre esté null
@@ -35,7 +34,6 @@ export default function InfoUser(props) {
           querySnapshot.forEach((doc) => {
               if (doc.data().createBy === userInfo.uid) {
                 setRestaurant(doc.data());
-                setRestaurantImages(restaurant.images);
                 // console.log(doc.id, " => ", doc.data());
               }
               
@@ -124,10 +122,6 @@ export default function InfoUser(props) {
                         {restaurant ? ` ${restaurant.rating} estrellas`  : "" }
                         </Text>
                 </Text>
-                {/* <Text style={styles.titles}>Imagenes:</Text>
-                <Image style={{height:100, width: 100}}
-                  source= {restaurant ? {uri: restaurantImages} : require("../../../assets/img/no-image.png")}
-                  /> */}
 
             </View>
         </View>

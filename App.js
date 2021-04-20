@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from "react";
-import {View, Text} from "react-native";
+import {YellowBox} from "react-native";
 import {firebaseApp} from "./App/utilidades/firebase";
 import * as firebase from "firebase";
 // import UserLogged from "./UserLogged";
 import Loading from "./App/components/Loading";
 import AcountStack from "./App/navigations/AcountStack";
 import Navigation from "./App/navigations/Navigation";
+
+YellowBox.ignoreWarnings(["Setting a timer"]);
 
 
 export default function App() {
@@ -27,8 +29,4 @@ export default function App() {
   return login ? <Navigation/> : <AcountStack/>;
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-    
-//   },
-// });
+
