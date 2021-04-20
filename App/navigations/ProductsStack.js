@@ -1,10 +1,9 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Login from "../screens/acount/Login";
-import Register from "../screens/acount/Register";
-import UserGuest from "../screens/acount/UserGuest";
 
-import Products from "../screens/products/Products"
+
+import Products from "../screens/products/Products";
+import AddProduct from "../screens/products/AddProduct";
 
 const Stack = createStackNavigator();
 
@@ -15,6 +14,11 @@ export default function ProductsStack() {
                 name = "products"
                 component = {Products}
                 options = { {title : "Productos"}}
+            />
+            <Stack.Screen
+                name = "addProduct"
+                component = {AddProduct}
+                options = {{ title : "Añadir producto"}}
             />
         </Stack.Navigator>
     )
