@@ -19,7 +19,7 @@ export default function AcountStack(){
       <Stack.Screen
         name = "userGuest"
         component = {UserGuest}
-        options = { {title : "Ingresa y ofrece tus servicios"}}
+        options = { {title : "IRapidín"}}
       />
       <Stack.Screen
         name = "login"

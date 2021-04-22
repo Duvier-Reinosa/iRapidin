@@ -8,18 +8,19 @@ export default function UserGuest() {
     const navigation = useNavigation();
     return (
         <ScrollView centerContent={true} style={styles.viewBody}>
-      
-      <Text style={styles.title}>Ofrece tus servicios</Text>
-      <Text style={styles.description}>¿Como describirías tu mejor restaurante? Busca y situaliza los mejores
-      restaurantes de una forma sencilla, vota cual te ha gustado más, Pide directamente al restaurante desde tu casa, Nosotros lo llevamos! Y
-      comenta como ha sido tu experiencia.</Text>
-      <View style={styles.viewBtn}>
-        <Button
-          buttonStyle={styles.btnstyle}
-          containerStyle={styles.btnContainer}
-          title="Ver tu perfil"
-          onPress={() => navigation.navigate("login")}/>
-      </View>
+        <Image
+          style={styles.image}
+          source={require("../../../assets/img/user-guest.png")}
+        />
+        <Text style={styles.title}>¡Ofrece tus servicios!</Text>
+        <Text style={styles.description}>Sé el mejor en tu nicho, ofrece el mejor producto o servicio y aumenta tus ventas.</Text>
+        <View style={styles.viewBtn}>
+          <Button
+            buttonStyle={styles.btnstyle}
+            containerStyle={styles.btnContainer}
+            title="Ver tu perfil"
+            onPress={() => navigation.navigate("login")}/>
+        </View>
     </ScrollView>
     )
 }
