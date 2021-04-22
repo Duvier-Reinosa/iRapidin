@@ -6,16 +6,77 @@ import {useFocusEffect, useIsFocused} from "@react-navigation/native";
 
 import Toast from 'react-native-easy-toast';
 import Loading from "../../components/Loading";
+import Product from "../../components/products/Product"
+
+import { firebaseApp } from "../../utilidades/firebase";
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+
+const db = firebase.firestore(firebaseApp);
+
+let refGeneral
 
 export default function Products(props) {
   const {navigation} = props;
   const toastRef = useRef();
 
+  const [products, setProducts] = useState([]);
   const [ isLoading, setIsLoading] = useState(false);
+
+  
+  let user = firebase.auth().currentUser;
+  let uid
+
+  if (user != null) {
+        uid = user.uid;
+  }
+
+  let ref = "products" + uid; //para referencias sin errores
+  refGeneral = ref;
+
+  useFocusEffect(
+     useCallback(()=>{
+        setIsLoading(true)
+        const resultProducts = [];
+        const resultIds = []
+        db.collection(ref).get().then((snap)=>{
+        snap.forEach((doc)=>{
+        resultIds.push(doc.id);
+        resultProducts.push(doc.data())
+        })
+        setProducts(resultProducts);
+        setIsLoading(false);
+     });
+
+     }, [])
+  );
+
+
+
     return (
       <View style={styles.productsScreen}>
-          
-            <Text>Products</Text>
+            {
+            (products.length > 0) ? 
+            <ScrollView>
+              <FlatList
+                    data={products}
+                    renderItem={(product) => <Product 
+                                                product={product}
+                                                ref={ref}
+                                                refGeneral={refGeneral}
+                                                navigation={navigation} 
+                                                toastRef ={toastRef} />}
+                    keyExtractor={(item, index) => index.toString}
+              />  
+            </ScrollView>
+            : 
+            <View style={styles.productsContainer} >
+                <Image 
+                    source={require("../../../assets/img/addProductsimage.png")}
+                    resizeMode="contain"
+                    style={styles.addProductsImage} />
+              </View>}
+      
             <Button
                type="clear"
                containerStyle={styles.btnPlus}
@@ -48,6 +109,15 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 60
+ },
+ productsContainer:{
+  alignItems: "center",
+  width: "100%"
+},
+ addProductsImage:{
+   marginTop: "20%",
+   height: 400,
+   width: 400
  }
   });
   

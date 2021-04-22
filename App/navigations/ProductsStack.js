@@ -13,7 +13,7 @@ export default function ProductsStack() {
             <Stack.Screen
                 name = "products"
                 component = {Products}
-                options = { {title : "Productos"}}
+                options = { {title : "Mis productos"}}
             />
             <Stack.Screen
                 name = "addProduct"
