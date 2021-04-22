@@ -21,11 +21,8 @@ export default function InfoUser(props) {
     var photoAvatar
     
     if(userInfo === null){ //se limpia el error de que el objeto userInfo cargue y no siempre esté null
-      
       console.log(userInfo); 
     }else{
-
-
       photoAvatar = userInfo.photoURL;
       
       db.collection("restaurants")//esta parte del codigo guarda los datos del codigo en un estado
@@ -96,7 +93,6 @@ export default function InfoUser(props) {
         
         };
 
-
     return (
         <View style={styles.viewUserInfo}>
             <Avatar
@@ -122,7 +118,6 @@ export default function InfoUser(props) {
                         {restaurant ? ` ${restaurant.rating} estrellas`  : "" }
                         </Text>
                 </Text>
-
             </View>
         </View>
     )

@@ -59,7 +59,7 @@ export default function Product(props) {
                 {theProduct.nombre}
                 </Text>
              <Text style={styles.productDates}>{theProduct.descripcion}</Text>
-             <Text style={styles.taskNote}>{theProduct.precio}</Text>
+             <Text style={styles.productDates}>{theProduct.precio}</Text>
              <Button
                 title="Eliminar producto"
                 containerStyle={styles.btnDeleteContainer}
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
        borderRadius: 10,
        marginTop: 20,
        width: "90%",
-       height: 120,
+       height: 140,
        backgroundColor: "#D1D1D1",
        shadowColor: "#A0A0A0",
     },
